@@ -12,77 +12,146 @@
             text-align: center;
             padding: 50px;
             margin: 0;
+            min-height: 100vh;
         }
 
         h1 {
             font-size: 3em;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px #000;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .countdown {
             font-size: 2em;
             color: white;
             margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #000;
+            background: rgba(244, 67, 54, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #f44336;
         }
 
         blockquote {
             font-style: italic;
             color: #888;
-            margin-bottom: 40px;
+            margin: 40px auto;
             font-size: 1.2em;
+            max-width: 800px;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #f44336;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         textarea {
-            width: 90%;
-            max-width: 600px;
-            height: 100px;
+            width: 100%;
+            max-width: 100%;
+            height: 120px;
             background: #222;
             color: white;
             border: 2px solid #f44336;
-            padding: 10px;
+            padding: 15px;
             font-family: monospace;
             resize: vertical;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.5);
         }
 
         button {
-            padding: 10px 20px;
+            padding: 15px 30px;
             background: #f44336;
             color: white;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             font-family: monospace;
-            font-size: 1em;
-            transition: background 0.3s;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border-radius: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
         button:hover {
             background: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
         }
 
         button:disabled {
             background: #666;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .confessions-container {
+            max-width: 900px;
+            margin: 40px auto;
         }
 
         ul {
             list-style: none;
             padding: 0;
-            max-width: 800px;
-            margin: 0 auto;
         }
 
         li {
             border-bottom: 1px dashed #444;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
             text-align: left;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid #f44336;
+            transition: background 0.3s;
+        }
+
+        li:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .confession-date {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .confession-text {
+            color: #ccc;
+            line-height: 1.4;
         }
 
         .dead {
             color: #888;
             font-size: 2em;
             text-shadow: 2px 2px 4px #000;
+            animation: flicker 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .loading {
@@ -90,12 +159,48 @@
             font-style: italic;
         }
 
-        .error {
-            color: #f44336;
-            background: #330;
+        .status {
+            margin: 15px 0;
             padding: 10px;
+            border-radius: 6px;
+            background: rgba(244, 67, 54, 0.1);
             border: 1px solid #f44336;
-            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .quote-refresh {
+            background: none;
+            border: 1px solid #666;
+            color: #888;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        .quote-refresh:hover {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .stats {
+            margin: 20px 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .death-message {
+            background: rgba(136, 136, 136, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #888;
+            margin: 20px 0;
+        }
+
+        .death-message p {
+            font-size: 1.5em;
+            color: #888;
+            margin: 0;
+            line-height: 1.4;
         }
 
         @media (max-width: 768px) {
@@ -108,40 +213,56 @@
             }
             
             .countdown {
-                font-size: 1.5em;
+                font-size: 1.3em;
+                padding: 15px;
+            }
+            
+            blockquote {
+                font-size: 1em;
+                padding: 15px;
             }
             
             textarea {
-                width: 95%;
+                height: 100px;
             }
         }
     </style>
 </head>
 <body>
     <h1>💀 KIERL JAY-AR INOT 💀</h1>
+    
     <div class="countdown" id="countdown">
-        <span class="loading">Loading your remaining time...</span>
+        <span class="loading">Calculating your remaining time...</span>
     </div>
+    
     <blockquote id="quote">Loading your death reminder...</blockquote>
+    <button class="quote-refresh" onclick="loadRandomQuote()">New Quote</button>
 
-    <div id="confession-form">
-        <textarea id="reflection" placeholder="What did you waste today on, Kierl Jay-ar Inot? Write it down."></textarea><br>
+    <div id="confession-form" class="form-container">
+        <textarea id="reflection" placeholder="What did you waste today on, Kierl Jay-ar Inot? Write it down before time runs out..."></textarea><br>
         <button type="button" id="confess-btn" onclick="confessRegret()">Confess Your Regret</button>
+        <div id="status"></div>
+        <div class="stats" id="stats"></div>
     </div>
 
-    <div id="dead-message" style="display: none;">
+    <div id="dead-message" class="death-message" style="display: none;">
         <p>Kierl Jay-ar Inot... you're dead. Time is gone. Were you who you were meant to be?</p>
+        <p style="font-size: 1em; margin-top: 20px; color: #666;">
+            Your confessions remain as the only proof you existed. Look at them. Was it worth it?
+        </p>
     </div>
 
-    <h3>📝 Kierl Jay-ar Inot's Final Confessions</h3>
-    <ul id="reflections">
-        <li class="loading">Loading confessions...</li>
-    </ul>
+    <div class="confessions-container">
+        <h3>📝 Kierl Jay-ar Inot's Final Confessions</h3>
+        <ul id="reflections">
+            <li class="loading">Loading your regrets...</li>
+        </ul>
+    </div>
 
     <script>
         const name = "Kierl Jay-ar Inot";
         
-        // Brutal quotes array
+        // 100 Brutal quotes
         const quotes = [
             `${name}, no one will remember the hours you wasted — only that you died with them.`,
             "You aren't running out of time — you're being eaten by it, second by second.",
@@ -255,32 +376,25 @@
         let isDead = false;
         let countdownInterval = null;
 
-        // Initialize the app
-        async function init() {
-            await loadStartTime();
+        // Initialize everything
+        function init() {
+            loadStartTime();
             loadRandomQuote();
             updateCountdown();
             loadReflections();
+            updateStats();
             requestNotificationPermission();
             startNotifications();
         }
 
         // Load or create start time
-        async function loadStartTime() {
-            try {
-                const response = await fetch('/api/time');
-                const data = await response.json();
-                startTime = new Date(data.startTime);
-            } catch (error) {
-                console.error('Error loading start time:', error);
-                // Fallback to localStorage
-                const stored = localStorage.getItem('deathCountdownStart');
-                if (stored) {
-                    startTime = new Date(stored);
-                } else {
-                    startTime = new Date();
-                    localStorage.setItem('deathCountdownStart', startTime.toISOString());
-                }
+        function loadStartTime() {
+            const stored = localStorage.getItem('deathCountdownStart');
+            if (stored) {
+                startTime = new Date(stored);
+            } else {
+                startTime = new Date();
+                localStorage.setItem('deathCountdownStart', startTime.toISOString());
             }
         }
 
@@ -301,7 +415,10 @@
 
         // Update countdown display
         function updateCountdown() {
-            if (!startTime) return;
+            if (!startTime) {
+                setTimeout(updateCountdown, 100);
+                return;
+            }
 
             const now = new Date();
             const endTime = new Date(startTime.getTime() + (3 * 24 * 60 * 60 * 1000)); // +3 days
@@ -318,86 +435,103 @@
                     clearInterval(countdownInterval);
                 }
             } else {
-                countdownEl.textContent = formatCountdown(secondsLeft);
+                countdownEl.innerHTML = `
+                    <div>Time Remaining Until Death:</div>
+                    <div style="font-size: 1.2em; margin-top: 10px;">${formatCountdown(secondsLeft)}</div>
+                `;
                 if (!countdownInterval) {
                     countdownInterval = setInterval(updateCountdown, 1000);
                 }
             }
         }
 
+        // Show status message
+        function showStatus(message, duration = 3000) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = 'status';
+            setTimeout(() => {
+                statusEl.textContent = '';
+                statusEl.className = '';
+            }, duration);
+        }
+
         // Confess regret
-        async function confessRegret() {
+        function confessRegret() {
             if (isDead) return;
 
             const reflection = document.getElementById('reflection').value.trim();
-            if (!reflection) return;
+            if (!reflection) {
+                showStatus('Write something before confessing your regret!');
+                return;
+            }
 
             const button = document.getElementById('confess-btn');
             button.disabled = true;
             button.textContent = 'Confessing...';
 
-            try {
-                const response = await fetch('/api/confessions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ reflection })
-                });
+            // Save to localStorage
+            const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
+            const newConfession = {
+                date: new Date().toISOString(),
+                reflection: reflection
+            };
+            
+            confessions.push(newConfession);
+            localStorage.setItem('confessions', JSON.stringify(confessions));
 
-                if (response.ok) {
-                    document.getElementById('reflection').value = '';
-                    await loadReflections();
-                } else {
-                    throw new Error('Failed to save confession');
-                }
-            } catch (error) {
-                console.error('Error saving confession:', error);
-                // Fallback to localStorage
-                const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
-                confessions.push({
-                    date: new Date().toISOString(),
-                    reflection: reflection
-                });
-                localStorage.setItem('confessions', JSON.stringify(confessions));
-                loadReflections();
-            } finally {
+            // Clear form and update display
+            document.getElementById('reflection').value = '';
+            showStatus('Your regret has been recorded in the void...');
+            loadReflections();
+            updateStats();
+
+            // Re-enable button
+            setTimeout(() => {
                 button.disabled = false;
                 button.textContent = 'Confess Your Regret';
-            }
+            }, 1000);
         }
 
-        // Load reflections
-        async function loadReflections() {
-            try {
-                const response = await fetch('/api/confessions');
-                const data = await response.json();
-                displayReflections(data.confessions || []);
-            } catch (error) {
-                console.error('Error loading reflections:', error);
-                // Fallback to localStorage
-                const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
-                displayReflections(confessions);
-            }
-        }
-
-        // Display reflections
-        function displayReflections(reflections) {
+        // Load and display reflections
+        function loadReflections() {
+            const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
             const ul = document.getElementById('reflections');
             
-            if (reflections.length === 0) {
-                ul.innerHTML = '<li class="loading">No confessions yet...</li>';
+            if (confessions.length === 0) {
+                ul.innerHTML = '<li class="loading">No confessions yet... Your regrets await in the darkness.</li>';
                 return;
             }
 
-            ul.innerHTML = reflections
+            ul.innerHTML = confessions
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .map(entry => `
+                .map((entry, index) => `
                     <li>
-                        <strong>${new Date(entry.date).toLocaleString()}</strong><br>
-                        ${escapeHtml(entry.reflection)}
+                        <div class="confession-date">
+                            Regret #${confessions.length - index} - ${new Date(entry.date).toLocaleString()}
+                        </div>
+                        <div class="confession-text">${escapeHtml(entry.reflection)}</div>
                     </li>
                 `).join('');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
+            const statsEl = document.getElementById('stats');
+            
+            if (confessions.length > 0) {
+                const totalChars = confessions.reduce((sum, c) => sum + c.reflection.length, 0);
+                const avgLength = Math.round(totalChars / confessions.length);
+                
+                statsEl.innerHTML = `
+                    Total regrets: ${confessions.length} | 
+                    Average regret length: ${avgLength} characters | 
+                    Total words of regret: ${totalChars}
+                `;
+            } else {
+                statsEl.textContent = 'No regrets recorded yet...';
+            }
         }
 
         // Escape HTML
@@ -410,41 +544,85 @@
         // Request notification permission
         function requestNotificationPermission() {
             if ('Notification' in window && Notification.permission !== 'granted') {
-                Notification.requestPermission();
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showStatus('Death notifications enabled. You will be reminded of your mortality.');
+                    }
+                });
             }
         }
 
         // Send quote notification
         function sendQuoteNotification() {
-            if (Notification.permission === 'granted') {
+            if ('Notification' in window && Notification.permission === 'granted') {
                 const quote = quotes[Math.floor(Math.random() * quotes.length)];
                 new Notification("💀 Death Reminder", {
                     body: quote,
-                    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMCAxOGMtNC40MSAwLTgtMy41OS04LThzMy41OS04IDgtOCA4IDMuNTkgOCA4LTMuNTkgOC04IDh6Ii8+PHBhdGggZD0iTTEzIDEyaDJWOGgtMnY0ek05IDEyaDJWOEg5djR6bTIgMmMwIDItMiA0LTIgNGgwYzAgMiAyIDQgMiA0czItMiAyLTRoMHMtMi0yLTItNHoiLz48L3N2Zz4="
+                    tag: 'death-reminder',
+                    requireInteraction: false,
+                    silent: false
                 });
             }
         }
 
         // Start notifications
         function startNotifications() {
-            // Send one immediately
-            setTimeout(sendQuoteNotification, 2000);
+            // Send first notification after 10 seconds
+            setTimeout(sendQuoteNotification, 10000);
             
-            // Send every 30 minutes
-            setInterval(sendQuoteNotification, 30 * 60 * 1000);
+            // Send every 30 minutes (1800000 ms)
+            setInterval(sendQuoteNotification, 1800000);
         }
 
-        // Handle enter key in textarea
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('reflection').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && e.ctrlKey) {
-                    confessRegret();
-                }
-            });
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+Enter to confess
+            if (e.ctrlKey && e.key === 'Enter') {
+                confessRegret();
+            }
+            
+            // Escape to clear textarea
+            if (e.key === 'Escape') {
+                document.getElementById('reflection').value = '';
+            }
+            
+            // R to get new quote
+            if (e.key === 'r' && !e.ctrlKey && !e.altKey) {
+                loadRandomQuote();
+            }
         });
 
         // Initialize when page loads
-        init();
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Save confession every 30 seconds if there's text (auto-save)
+        setInterval(() => {
+            const reflection = document.getElementById('reflection').value.trim();
+            if (reflection && reflection.length > 10) {
+                localStorage.setItem('currentDraft', reflection);
+            }
+        }, 30000);
+
+        // Load draft on page load
+        window.addEventListener('load', () => {
+            const draft = localStorage.getItem('currentDraft');
+            if (draft) {
+                document.getElementById('reflection').value = draft;
+                showStatus('Draft restored... Continue your confession.');
+            }
+        });
+
+        // Clear draft when confession is submitted
+        function clearDraft() {
+            localStorage.removeItem('currentDraft');
+        }
+
+        // Add to confessRegret function
+        const originalConfessRegret = confessRegret;
+        confessRegret = function() {
+            originalConfessRegret();
+            clearDraft();
+        };
     </script>
 </body>
 </html>
