@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Will Die Soon, Kierl Jay-ar Inot</title>
+    <style>
+        body {
+            background: black;
+            color: #f44336;
+            font-family: monospace;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .countdown {
+            font-size: 2em;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        blockquote {
+            font-style: italic;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        textarea {
+            width: 90%;
+            max-width: 600px;
+            height: 100px;
+            background: #222;
+            color: white;
+            border: 2px solid #f44336;
+            padding: 10px;
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #d32f2f;
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        li {
+            border-bottom: 1px dashed #444;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            text-align: left;
+        }
+
+        .dead {
+            color: #888;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .loading {
+            color: #888;
+            font-style: italic;
+        }
+
+        .error {
+            color: #f44336;
+            background: #330;
+            padding: 10px;
+            border: 1px solid #f44336;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .countdown {
+                font-size: 1.5em;
+            }
+            
+            textarea {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>💀 KIERL JAY-AR INOT 💀</h1>
+    <div class="countdown" id="countdown">
+        <span class="loading">Loading your remaining time...</span>
+    </div>
+    <blockquote id="quote">Loading your death reminder...</blockquote>
+
+    <div id="confession-form">
+        <textarea id="reflection" placeholder="What did you waste today on, Kierl Jay-ar Inot? Write it down."></textarea><br>
+        <button type="button" id="confess-btn" onclick="confessRegret()">Confess Your Regret</button>
+    </div>
+
+    <div id="dead-message" style="display: none;">
+        <p>Kierl Jay-ar Inot... you're dead. Time is gone. Were you who you were meant to be?</p>
+    </div>
+
+    <h3>📝 Kierl Jay-ar Inot's Final Confessions</h3>
+    <ul id="reflections">
+        <li class="loading">Loading confessions...</li>
+    </ul>
+
+    <script>
+        const name = "Kierl Jay-ar Inot";
+        
+        // Brutal quotes array
+        const quotes = [
+            `${name}, no one will remember the hours you wasted — only that you died with them.`,
+            "You aren't running out of time — you're being eaten by it, second by second.",
+            "Your heart is a ticking bomb. One day soon, it stops.",
+            "Your lungs won't warn you before they stop. They'll just stop.",
+            "Each sunrise isn't a gift — it's a countdown marker.",
+            "Nobody survives time. Not kings, not geniuses, not you.",
+            "You're not living slowly. You're dying quietly.",
+            `${name}, your future self doesn't exist. He dies in 3 days.`,
+            "That dream you keep putting off? The clock doesn't care.",
+            "You waste your breath like it's infinite. It isn't.",
+            "Someone else is using their last 72 hours to beg for another minute. You're just scrolling.",
+            `Procrastination is suicide in slow motion, ${name}.`,
+            "You're not getting older. You're rotting beautifully.",
+            "Your legacy will be what you do today. Or don't.",
+            "The grave doesn't take requests. It takes everything.",
+            `${name}, your coffin is already waiting. You're just walking toward it.`,
+            "People say 'there's still time.' They lie. You have 3 days.",
+            "No one will care how busy you were when you're dead.",
+            "You're not promised tonight. Only this moment. Maybe.",
+            "You'll never know your last moment. But it's scheduled.",
+            `Every breath you take is one less you have left, ${name}.`,
+            "Your tombstone is being carved right now. What will it say?",
+            "Time doesn't heal wounds. It creates them.",
+            "You're practicing for death every time you sleep.",
+            "The reaper doesn't knock. He just enters.",
+            "Your eulogy is being written by your actions today.",
+            "Every heartbeat is a countdown to silence.",
+            "You're not living on borrowed time. You're stealing it.",
+            `${name}, your expiration date was set at birth.`,
+            "The clock is your enemy, and it never loses.",
+            "You're dying faster than you're living.",
+            "Your last words are approaching. Choose them wisely.",
+            "Death is patient. It can wait forever. Can you?",
+            "You're not immortal. You just pretend to be.",
+            "The grave is democracy's final victory.",
+            `Your bones will outlast your dreams, ${name}.`,
+            "Time is the cruelest dictator ever known.",
+            "You're not making memories. You're using up chances.",
+            "Every sunset brings you closer to your final darkness.",
+            "Your youth isn't returning. It's already dead.",
+            "Life is terminal. Accept your diagnosis.",
+            "You're not writing your story. You're ending it.",
+            "The hourglass doesn't care about your plans.",
+            "Your pulse is morse code spelling 'temporary'.",
+            "Death owns your calendar. You just borrow days.",
+            "You're not growing up. You're growing out of time.",
+            "Your shadow grows shorter as your time does.",
+            "The universe is indifferent to your survival.",
+            "You're practicing disappearance every day.",
+            "Your final breath is already assigned a number.",
+            `${name}, you're not running a marathon. You're sprinting to the grave.`,
+            "Time doesn't forgive. It doesn't forget. It just ends.",
+            "You're not aging gracefully. You're decomposing slowly.",
+            "Your bucket list is really a death list.",
+            "Every 'tomorrow' you waste is one you'll never get back.",
+            "You're not making progress. You're making regrets.",
+            "The cemetery is full of irreplaceable people. You're not one of them.",
+            "Your DNA is programmed for self-destruction.",
+            "You're not living the dream. You're dying the reality.",
+            "Time is the house that always wins.",
+            "Your existence is a brief interruption in eternity.",
+            `${name}, you're not building a life. You're building a grave.`,
+            "Every decision you delay is a nail in your coffin.",
+            "You're not postponing tasks. You're postponing living.",
+            "Death doesn't negotiate. It doesn't compromise. It just takes.",
+            "Your biological warranty expired years ago.",
+            "You're not saving time. Time is spending you.",
+            "Every mirror shows you aging in real time.",
+            "Your mortality is your only certainty.",
+            "You're not fighting time. You're surrendering to it.",
+            "The funeral director is already measuring your dimensions.",
+            `${name}, your last day is already circled on the calendar.`,
+            "You're not living in the moment. The moment is living in you.",
+            "Death doesn't care about your unfinished business.",
+            "You're not making history. You're becoming it.",
+            "Time is the ultimate serial killer.",
+            "Your life story has already reached its climax.",
+            "You're not procrastinating. You're practicing for your final delay.",
+            "Every sunrise is one closer to your sunset.",
+            "Your cells are committing suicide right now.",
+            "You're not gaining experience. You're losing chances.",
+            `${name}, your name is already on the waiting list for eternity.`,
+            "Time doesn't pause for your hesitation.",
+            "You're not accumulating days. You're spending them.",
+            "Your heartbeat is a countdown timer you can't reset.",
+            "Death is the debt collector of life.",
+            "You're not building memories. You're consuming opportunities.",
+            "Every regret is a rehearsal for your final disappointment.",
+            "Time doesn't care about your potential.",
+            "You're not living your best life. You're dying your only one.",
+            `${name}, your ghost is already writing your obituary.`,
+            "Every breath is borrowed from your future silence.",
+            "You're not making choices. You're making consequences.",
+            "Death is the only appointment you can't reschedule.",
+            "Your timeline isn't infinite. It's already ending.",
+            "You're not surviving. You're expiring gradually.",
+            "Every moment you waste is a moment you'll never recover.",
+            "Time is the currency you can never earn back.",
+            "You're not living in the present. You're dying in it.",
+            `${name}, your final chapter is already being written.`,
+            "Death doesn't wait for you to be ready.",
+            "You're not making progress. You're making your way to the end.",
+            "Every second is a second closer to your final silence.",
+            "Your life insurance policy is really a death guarantee.",
+            "You're not growing older. You're approaching your expiration.",
+            "Time doesn't heal all wounds. It creates the final one."
+        ];
+
+        let startTime = null;
+        let isDead = false;
+        let countdownInterval = null;
+
+        // Initialize the app
+        async function init() {
+            await loadStartTime();
+            loadRandomQuote();
+            updateCountdown();
+            loadReflections();
+            requestNotificationPermission();
+            startNotifications();
+        }
+
+        // Load or create start time
+        async function loadStartTime() {
+            try {
+                const response = await fetch('/api/time');
+                const data = await response.json();
+                startTime = new Date(data.startTime);
+            } catch (error) {
+                console.error('Error loading start time:', error);
+                // Fallback to localStorage
+                const stored = localStorage.getItem('deathCountdownStart');
+                if (stored) {
+                    startTime = new Date(stored);
+                } else {
+                    startTime = new Date();
+                    localStorage.setItem('deathCountdownStart', startTime.toISOString());
+                }
+            }
+        }
+
+        // Load random quote
+        function loadRandomQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote').textContent = randomQuote;
+        }
+
+        // Format countdown display
+        function formatCountdown(seconds) {
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            return `${String(days).padStart(2, '0')} days ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // Update countdown display
+        function updateCountdown() {
+            if (!startTime) return;
+
+            const now = new Date();
+            const endTime = new Date(startTime.getTime() + (3 * 24 * 60 * 60 * 1000)); // +3 days
+            const secondsLeft = Math.max(Math.floor((endTime - now) / 1000), 0);
+
+            const countdownEl = document.getElementById('countdown');
+            
+            if (secondsLeft === 0) {
+                isDead = true;
+                countdownEl.innerHTML = `<span class='dead'>💀 You're out of time, ${name}. 💀</span>`;
+                document.getElementById('confession-form').style.display = 'none';
+                document.getElementById('dead-message').style.display = 'block';
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                }
+            } else {
+                countdownEl.textContent = formatCountdown(secondsLeft);
+                if (!countdownInterval) {
+                    countdownInterval = setInterval(updateCountdown, 1000);
+                }
+            }
+        }
+
+        // Confess regret
+        async function confessRegret() {
+            if (isDead) return;
+
+            const reflection = document.getElementById('reflection').value.trim();
+            if (!reflection) return;
+
+            const button = document.getElementById('confess-btn');
+            button.disabled = true;
+            button.textContent = 'Confessing...';
+
+            try {
+                const response = await fetch('/api/confessions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ reflection })
+                });
+
+                if (response.ok) {
+                    document.getElementById('reflection').value = '';
+                    await loadReflections();
+                } else {
+                    throw new Error('Failed to save confession');
+                }
+            } catch (error) {
+                console.error('Error saving confession:', error);
+                // Fallback to localStorage
+                const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
+                confessions.push({
+                    date: new Date().toISOString(),
+                    reflection: reflection
+                });
+                localStorage.setItem('confessions', JSON.stringify(confessions));
+                loadReflections();
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Confess Your Regret';
+            }
+        }
+
+        // Load reflections
+        async function loadReflections() {
+            try {
+                const response = await fetch('/api/confessions');
+                const data = await response.json();
+                displayReflections(data.confessions || []);
+            } catch (error) {
+                console.error('Error loading reflections:', error);
+                // Fallback to localStorage
+                const confessions = JSON.parse(localStorage.getItem('confessions') || '[]');
+                displayReflections(confessions);
+            }
+        }
+
+        // Display reflections
+        function displayReflections(reflections) {
+            const ul = document.getElementById('reflections');
+            
+            if (reflections.length === 0) {
+                ul.innerHTML = '<li class="loading">No confessions yet...</li>';
+                return;
+            }
+
+            ul.innerHTML = reflections
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(entry => `
+                    <li>
+                        <strong>${new Date(entry.date).toLocaleString()}</strong><br>
+                        ${escapeHtml(entry.reflection)}
+                    </li>
+                `).join('');
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Request notification permission
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+        }
+
+        // Send quote notification
+        function sendQuoteNotification() {
+            if (Notification.permission === 'granted') {
+                const quote = quotes[Math.floor(Math.random() * quotes.length)];
+                new Notification("💀 Death Reminder", {
+                    body: quote,
+                    icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnptMCAxOGMtNC40MSAwLTgtMy41OS04LThzMy41OS04IDgtOCA4IDMuNTkgOCA4LTMuNTkgOC04IDh6Ii8+PHBhdGggZD0iTTEzIDEyaDJWOGgtMnY0ek05IDEyaDJWOEg5djR6bTIgMmMwIDItMiA0LTIgNGgwYzAgMiAyIDQgMiA0czItMiAyLTRoMHMtMi0yLTItNHoiLz48L3N2Zz4="
+                });
+            }
+        }
+
+        // Start notifications
+        function startNotifications() {
+            // Send one immediately
+            setTimeout(sendQuoteNotification, 2000);
+            
+            // Send every 30 minutes
+            setInterval(sendQuoteNotification, 30 * 60 * 1000);
+        }
+
+        // Handle enter key in textarea
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('reflection').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    confessRegret();
+                }
+            });
+        });
+
+        // Initialize when page loads
+        init();
+    </script>
+</body>
+</html>
